@@ -1,5 +1,4 @@
 import React from 'react';
-import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Slider from '@material-ui/core/Slider';
@@ -11,30 +10,7 @@ import FormControl from '@material-ui/core/FormControl';
 import ListItemText from '@material-ui/core/ListItemText';
 import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
-import Chip from '@material-ui/core/Chip';
 
-const knownJSON = {
-  "recipient_email": "jack.weber@pomona.edu",
-  "filter_dict": 
-   {
-     "is_in" : {
-         "school.state": ["TX", "CA","NY","FL"],
-         "school.carnegie_basic" : ["Doctoral Universities: Very High Research Activity", "Baccalaureate Colleges: Arts & Sciences Focus"]
-         },
-     "is_btwn": {
-         "latest.admissions.act_scores.midpoint.cumulative" : {
-             "min" : 30,
-             "max" : 35,
-             "inclusive": true
-             },
-         "latest.student.demographics.women" : {
-             "min":1,
-             "max":1,
-             "inclusive": true
-          }
-      }
-   }
- }
 
 
 function generateJSON(selection) {
@@ -84,69 +60,6 @@ function makeRequest(finalObj) {
 
   });
 }
-
-
-
-// function sendEmail(filters) {
-//   console.log(filters)
-//   return fetch("https://flask-restful-collegedata.herokuapp.com/send-data", {
-//     method: 'POST',
-//     headers: {
-//       Accept: 'application/json',
-//       'Content-Type': 'application/json',
-//     },
-//     body: JSON.stringify({
-//       "min_ACT": 34,
-//       "recipient_email": "jackdavidweber@gmail.com",
-//       "filter_dict": 
-//         {
-//           "is_in" : {
-//               "school.state": ["TX", "CA","NY","FL"],
-//               "school.carnegie_basic" : ["Doctoral Universities: Very High Research Activity", "Baccalaureate Colleges: Arts & Sciences Focus"]
-//               },
-//           "is_btwn": {
-//               "school.region_id" : {
-//                   "min" : 30,
-//                   "max" : 35,
-//                   "inclusive": true
-//                   },
-//               "latest.student.demographics.women" : {
-//                   "min":1,
-//                   "max":1,
-//                   "inclusive": true
-//               }
-//           }
-//         }
-//       }),
-//   })
-//     .then((response) => response.json())
-//     .then((responseJson) => {
-//       return responseJson.output;
-//     })
-//     .catch((error) => {
-//       console.error(error);
-//     });
-// }
-
-const currencies = [
-  {
-    value: 'USD',
-    label: '$',
-  },
-  {
-    value: 'EUR',
-    label: '€',
-  },
-  {
-    value: 'BTC',
-    label: '฿',
-  },
-  {
-    value: 'JPY',
-    label: '¥',
-  },
-];
-
 
 
 const ITEM_HEIGHT = 48;
@@ -200,95 +113,28 @@ const useStyles = makeStyles(theme => ({
 export default function FilledTextFields() {
   const classes = useStyles();
   const [values, setValues] = React.useState({
-    name: 'Cat in the Hat',
-    age: '',
-    multiline: 'Controlled',
-    currency: 'EUR',
     "latest.admissions.act_scores.midpoint.cumulative": [0,36],
     "recipient_email": '',
     "school.region_id": [],
   });
 
   const handleChange = name => (event, newValue) => {
-    // if(event.target.value.type is list):
-    //   setVa
-    // console.log(event.target.value)
+    var updatedVal = newValue ? newValue : event.target.value
     if(Array.isArray(event.target.value)){
-      var updatedVal = event.target.value
-    } else {
-      var updatedVal = newValue ? newValue : event.target.value
+      updatedVal = event.target.value
     }
     console.log(updatedVal)
     setValues({...values, [name]: updatedVal}); // this if statement is clearly not handling personChange very well
-    //console.log(values)
   };
 
   function handleClick() {
      var apiOutput = makeRequest(generateJSON(values))
-     console.log(apiOutput)
+     console.log(apiOutput) // need to eventually return something when request occurs
     alert(JSON.stringify(values));
   }
 
   return (
     <form className={classes.container} noValidate autoComplete="off">
-      <TextField
-        id="filled-name"
-        label="Name"
-        className={classes.textField}
-        value={values.name}
-        onChange={handleChange('name')}
-        margin="normal"
-        variant="filled"
-      />
-      
-      <TextField
-        id="filled-multiline-flexible"
-        label="Multiline"
-        multiline
-        rowsMax="4"
-        value={values.multiline}
-        onChange={handleChange('multiline')}
-        className={classes.textField}
-        margin="normal"
-        helperText="hello"
-        variant="filled"
-      />
-      <TextField
-        id="filled-number"
-        label="Number"
-        value={values.age}
-        onChange={handleChange('age')}
-        type="number"
-        className={classes.textField}
-        InputLabelProps={{
-          shrink: true,
-        }}
-        margin="normal"
-        variant="filled"
-      />
-      <TextField
-        id="filled-select-currency-native"
-        select
-        label="Native select"
-        className={classes.textField}
-        value={values.currency}
-        onChange={handleChange('currency')}
-        SelectProps={{
-          native: true,
-          MenuProps: {
-            className: classes.menu,
-          },
-        }}
-        helperText="Please select your currency"
-        margin="normal"
-        variant="outlined"
-      >
-        {currencies.map(option => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </TextField>
       <FormControl className={classes.formControl}>
         <InputLabel htmlFor="select-multiple-checkbox">Tag</InputLabel>
         <Select
