@@ -134,7 +134,7 @@ export default function FilledTextFields() {
     "school.region_id": [],
     "school.ownership": [],
     "school.degrees_awarded.highest": [],
-    "school.online_only": [],
+    "school.institutional_characteristics.level": [],
     "school.minority_serving.historically_black": [],
     "singlesex.or.coed": [],
   });
@@ -254,23 +254,24 @@ export default function FilledTextFields() {
                 </Select>
               </FormControl>
 
-              {/* Online */}
+              {/* Years */}
               <FormControl className={classes.formControl}>
-                <InputLabel htmlFor="select-multiple-checkbox">Online</InputLabel>
+                <InputLabel htmlFor="select-multiple-checkbox">Years</InputLabel>
                 <Select
                   multiple
-                  value={values["school.online_only"]}
-                  onChange={handleChange("school.online_only")}
+                  value={values["school.institutional_characteristics.level"]}
+                  onChange={handleChange("school.institutional_characteristics.level")}
                   input={<Input id="select-multiple-checkbox" />}
                   renderValue={selected => selected.join(', ')}
                   MenuProps={TheMenuProps}
                 >
                   {[
-                    'Not distance-education only',
-                    'Distance-education only',
+                    '4-year',
+                    '2-year',
+                    'Less-than-2-year',
                   ].map(name => (
                     <MenuItem key={name} value={name}>
-                      <Checkbox checked={values["school.online_only"].indexOf(name) > -1} />
+                      <Checkbox checked={values["school.institutional_characteristics.level"].indexOf(name) > -1} />
                       <ListItemText primary={name} />
                     </MenuItem>
                   ))}
