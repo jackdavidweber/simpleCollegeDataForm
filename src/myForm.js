@@ -24,7 +24,8 @@ function generateJSON(selection) {
   const keys = Object.keys(selection)
   for (const key of keys) {
     // Both is_in selections and is_btwn selections are contained in lists
-    if (Array.isArray(selection[key])) {
+    // selection[key].length>0 prevents empty lists from being added (i.e. when nothing is selected for "is_in")
+    if ((Array.isArray(selection[key])) && (selection[key].length > 0)) {
       // is_btwn lists will always have number as first and second inputs
       if(typeof(selection[key][0]) == 'number'){
         is_btwn[key] = {
@@ -34,6 +35,7 @@ function generateJSON(selection) {
         }
       // is_in lists will not be numeric
       } else {
+        console.log(selection[key].length)
         is_in[key] = selection[key]
       }
     }
@@ -77,7 +79,7 @@ const TheMenuProps = {
   },
 };
 
-const names = [
+const regions = [
   'U.S. Service Schools',
   'New England (CT, ME, MA, NH, RI, VT)',
   'Mid East (DE, DC, MD, NJ, NY, PA)',
@@ -122,10 +124,19 @@ const useStyles = makeStyles(theme => ({
 export default function FilledTextFields() {
   const classes = useStyles();
   const [values, setValues] = React.useState({
+    "recipient_email": '',
+    
+    // Sliders
     "latest.admissions.act_scores.midpoint.cumulative": [0,36],
     "latest.student.size": [0,50000],
-    "recipient_email": '',
+    
+    // Selects
     "school.region_id": [],
+    "school.ownership": [],
+    "school.degrees_awarded.highest": [],
+    "school.online_only": [],
+    "school.minority_serving.historically_black": [],
+    "singlesex.or.coed": [],
   });
 
   const handleChange = name => (event, newValue) => {
@@ -160,6 +171,8 @@ export default function FilledTextFields() {
               <Typography variant="body1" gutterBottom>
                 School Facts
               </Typography>
+              
+              {/* Region */}
               <FormControl className={classes.formControl}>
                 <InputLabel htmlFor="select-multiple-checkbox">Region</InputLabel>
                 <Select
@@ -170,7 +183,18 @@ export default function FilledTextFields() {
                   renderValue={selected => selected.join(', ')}
                   MenuProps={TheMenuProps}
                 >
-                  {names.map(name => (
+                  {[
+                    'U.S. Service Schools',
+                    'New England (CT, ME, MA, NH, RI, VT)',
+                    'Mid East (DE, DC, MD, NJ, NY, PA)',
+                    'Great Lakes (IL, IN, MI, OH, WI)',
+                    'Plains (IA, KS, MN, MO, NE, ND, SD)',
+                    'Southeast (AL, AR, FL, GA, KY, LA, MS, NC, SC, TN, VA, WV)',
+                    'Southwest (AZ, NM, OK, TX)',
+                    'Rocky Mountains (CO, ID, MT, UT, WY)',
+                    'Far West (AK, CA, HI, NV, OR, WA)',
+                    'Outlying Areas (AS, FM, GU, MH, MP, PR, PW, VI)',
+                  ].map(name => (
                     <MenuItem key={name} value={name}>
                       {/* {console.log(values)} */}
                       <Checkbox checked={values["school.region_id"].indexOf(name) > -1} />
@@ -179,6 +203,129 @@ export default function FilledTextFields() {
                   ))}
                 </Select>
               </FormControl>
+              
+              {/* Ownership */}
+              <FormControl className={classes.formControl}>
+                <InputLabel htmlFor="select-multiple-checkbox">Ownership</InputLabel>
+                <Select
+                  multiple
+                  value={values["school.ownership"]}
+                  onChange={handleChange("school.ownership")}
+                  input={<Input id="select-multiple-checkbox" />}
+                  renderValue={selected => selected.join(', ')}
+                  MenuProps={TheMenuProps}
+                >
+                  {[
+                    'Public',
+                    'Private nonprofit',
+                    'Private for-profit',
+                  ].map(name => (
+                    <MenuItem key={name} value={name}>
+                      <Checkbox checked={values["school.ownership"].indexOf(name) > -1} />
+                      <ListItemText primary={name} />
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+
+              {/* Highest Degree Awarded */}
+              <FormControl className={classes.formControl}>
+                <InputLabel htmlFor="select-multiple-checkbox">Highest Degree</InputLabel>
+                <Select
+                  multiple
+                  value={values["school.degrees_awarded.highest"]}
+                  onChange={handleChange("school.degrees_awarded.highest")}
+                  input={<Input id="select-multiple-checkbox" />}
+                  renderValue={selected => selected.join(', ')}
+                  MenuProps={TheMenuProps}
+                >
+                  {[
+                    'Non-degree-granting',
+                    'Certificate degree',
+                    'Associate degree',
+                    'Bachelors degree',
+                    'Graduate degree',
+                  ].map(name => (
+                    <MenuItem key={name} value={name}>
+                      <Checkbox checked={values["school.degrees_awarded.highest"].indexOf(name) > -1} />
+                      <ListItemText primary={name} />
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+
+              {/* Online */}
+              <FormControl className={classes.formControl}>
+                <InputLabel htmlFor="select-multiple-checkbox">Online</InputLabel>
+                <Select
+                  multiple
+                  value={values["school.online_only"]}
+                  onChange={handleChange("school.online_only")}
+                  input={<Input id="select-multiple-checkbox" />}
+                  renderValue={selected => selected.join(', ')}
+                  MenuProps={TheMenuProps}
+                >
+                  {[
+                    'Not distance-education only',
+                    'Distance-education only',
+                  ].map(name => (
+                    <MenuItem key={name} value={name}>
+                      <Checkbox checked={values["school.online_only"].indexOf(name) > -1} />
+                      <ListItemText primary={name} />
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+
+              {/* Historically Black */}
+              <FormControl className={classes.formControl}>
+                <InputLabel htmlFor="select-multiple-checkbox">HBCU</InputLabel>
+                <Select
+                  multiple
+                  value={values["school.minority_serving.historically_black"]}
+                  onChange={handleChange("school.minority_serving.historically_black")}
+                  input={<Input id="select-multiple-checkbox" />}
+                  renderValue={selected => selected.join(', ')}
+                  MenuProps={TheMenuProps}
+                >
+                  {[
+                    'No',
+                    'Yes',
+                  ].map(name => (
+                    <MenuItem key={name} value={name}>
+                      <Checkbox checked={values["school.minority_serving.historically_black"].indexOf(name) > -1} />
+                      <ListItemText primary={name} />
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+
+              {/* Single-Sex or Coed */}
+              <FormControl className={classes.formControl}>
+                <InputLabel htmlFor="select-multiple-checkbox">Single-Sex</InputLabel>
+                <Select
+                  multiple
+                  value={values["singlesex.or.coed"]}
+                  onChange={handleChange("singlesex.or.coed")}
+                  input={<Input id="select-multiple-checkbox" />}
+                  renderValue={selected => selected.join(', ')}
+                  MenuProps={TheMenuProps}
+                >
+                  {[
+                    "Single-Sex: Men",
+                    "Single-Sex: Women",
+                    "Co-Educational",
+                    // "Not Listed", // Maybe remove this as the others don't have an explicit options
+                  ].map(name => (
+                    <MenuItem key={name} value={name}>
+                      <Checkbox checked={values["singlesex.or.coed"].indexOf(name) > -1} />
+                      <ListItemText primary={name} />
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+
+
             </Grid>
             
           </Grid>
