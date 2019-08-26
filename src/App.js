@@ -16,6 +16,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
 import FilledTextFields from './myForm';
+import { ScrollTo } from "react-scroll-to";
+
 
 function Copyright() {
   return (
@@ -64,7 +66,6 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 function App() {
   const classes = useStyles();
@@ -85,7 +86,7 @@ function App() {
         <div className={classes.heroContent}>
           <Container maxWidth="sm">
             <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-              Album layout
+              College Spreadsheet Generatort
             </Typography>
             <Typography variant="h5" align="center" color="textSecondary" paragraph>
               This tool is designed to be the first step in your college process! Simply insert your preferences below, and we will send you a personalized spreadsheet with colleges and all of the information about each one!
@@ -93,9 +94,16 @@ function App() {
             <div className={classes.heroButtons}>
               <Grid container spacing={2} justify="center">
                 <Grid item>
-                  <Button variant="contained" color="primary">
+                <ScrollTo>
+                  {({ scrollTo }) => (
+                    <Button variant="contained" color="primary" onClick={() => scrollTo({ y: 600, smooth: true })}>
+                      Get Started
+                    </Button>
+                  )}
+                </ScrollTo>
+                  {/* <Button variant="contained" color="primary">
                     Get Started
-                  </Button>
+                  </Button> */}
                 </Grid>
                 <Grid item>
                   <Button variant="outlined" color="primary">
