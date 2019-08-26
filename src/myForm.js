@@ -13,8 +13,17 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import { withRouter } from 'react-router-dom'
 
 
+const moveButton = withRouter(({ history }) => (
+  <Button
+    type='button'
+    onClick={() => { history.push('/about') }}
+  >
+    Click Me!
+  </Button>
+))
 
 
 function generateJSON(selection) {
@@ -158,6 +167,7 @@ export default function FilledTextFields() {
     return `${value}°C`;
   }
   
+
 
   return (
     <form className={classes.container} noValidate autoComplete="off">
@@ -497,6 +507,7 @@ export default function FilledTextFields() {
       <Button onClick={handleClick} variant="contained" className={classes.button}>
         Submit
       </Button>
+      {moveButton}
     </form>
   );
 }
