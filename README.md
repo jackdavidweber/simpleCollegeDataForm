@@ -1,4 +1,11 @@
+A live version for this app can be found here: https://simplecollegedataform.herokuapp.com/
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## Project Description
+
+This project was created to help college students generate a spreadsheet containing data on colleges that match their personalized preferences. This is a simple MaterialUI frontend to make the backend that does all of the filtering and cleaning of the data more accessible. [Here is the repo for the backend](https://github.com/jack1536/Flask-Python.git).
+
 
 ## Available Scripts
 
