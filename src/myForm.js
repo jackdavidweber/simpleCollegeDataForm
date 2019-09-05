@@ -174,9 +174,9 @@ export default function FilledTextFields() {
           </Typography>
           <Grid container spacing={3}>
             <Grid item xs={12}>
-              <Typography variant="body1" gutterBottom>
+              {/* <Typography variant="body1" gutterBottom>
                 School Facts
-              </Typography>
+              </Typography> */}
               
               {/* Region */}
               <FormControl className={classes.formControl}>
