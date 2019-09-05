@@ -149,9 +149,15 @@ export default function FilledTextFields() {
   };
 
   function handleClick() {
-     var apiOutput = makeRequest(generateJSON(values))
-     console.log(apiOutput) // need to eventually return something when request occurs
-    alert(JSON.stringify(values));
+    // console.log(apiOutput) // need to eventually return something when request occurs
+    if(values["recipient_email"].length == 0){
+      alert("Please provide your email address")
+    } else {
+      var apiOutput = makeRequest(generateJSON(values))
+      alert("Thank you for submitting. You should recieve an email with your personalized college spreadsheet in the next 10 minutes.");
+      window.location.reload();
+    }
+    
   }
 
   function valuetext(value) {

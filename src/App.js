@@ -23,8 +23,8 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+      <Link color="inherit" href="https://www.linkedin.com/in/jackdavidweber/">
+        Jack Weber
       </Link>{' '}
       {new Date().getFullYear()}
       {'. Built with '}
@@ -86,7 +86,7 @@ function App() {
         <div className={classes.heroContent}>
           <Container maxWidth="sm">
             <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-              College Spreadsheet Generatort
+              College Spreadsheet Generator
             </Typography>
             <Typography variant="h5" align="center" color="textSecondary" paragraph>
               This tool is designed to be the first step in your college process! Simply insert your preferences below, and we will send you a personalized spreadsheet with colleges and all of the information about each one!
@@ -106,8 +106,8 @@ function App() {
                   </Button> */}
                 </Grid>
                 <Grid item>
-                  <Button variant="outlined" color="primary">
-                    Learn More
+                  <Button href= "https://github.com/jack1536" variant="outlined" color="primary">
+                    Source Code
                   </Button>
                 </Grid>
               </Grid>
@@ -122,11 +122,11 @@ function App() {
       {/* Footer */}
       <footer className={classes.footer}>
         <Typography variant="h6" align="center" gutterBottom>
-          Footer
+          College Spreadsheet Generator
         </Typography>
-        <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
-          Something here to give the footer a purpose!
-        </Typography>
+        {/* <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
+          Click here to see the source code
+        </Typography> */}
         <Copyright />
       </footer>
       {/* End footer */}
