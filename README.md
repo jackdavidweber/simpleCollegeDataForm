@@ -1,4 +1,4 @@
-A live version for this app can be found here: https://simplecollegedataform.herokuapp.com/
+A live version for this app can be found here: https://collegespreadsheet.herokuapp.com/
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
