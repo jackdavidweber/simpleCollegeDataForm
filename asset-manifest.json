@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/simpleCollegeDataForm/static/css/main.34de6062.chunk.css",
+    "main.js": "/simpleCollegeDataForm/static/js/main.549c5412.chunk.js",
+    "main.js.map": "/simpleCollegeDataForm/static/js/main.549c5412.chunk.js.map",
+    "runtime~main.js": "/simpleCollegeDataForm/static/js/runtime~main.a3624f10.js",
+    "runtime~main.js.map": "/simpleCollegeDataForm/static/js/runtime~main.a3624f10.js.map",
+    "static/js/2.ecc3bd0b.chunk.js": "/simpleCollegeDataForm/static/js/2.ecc3bd0b.chunk.js",
+    "static/js/2.ecc3bd0b.chunk.js.map": "/simpleCollegeDataForm/static/js/2.ecc3bd0b.chunk.js.map",
+    "index.html": "/simpleCollegeDataForm/index.html",
+    "precache-manifest.156788f7daa74322350983017a425e15.js": "/simpleCollegeDataForm/precache-manifest.156788f7daa74322350983017a425e15.js",
+    "service-worker.js": "/simpleCollegeDataForm/service-worker.js",
+    "static/css/main.34de6062.chunk.css.map": "/simpleCollegeDataForm/static/css/main.34de6062.chunk.css.map"
+  }
+}
