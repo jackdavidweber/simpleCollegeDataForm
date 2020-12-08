@@ -1,5 +1,6 @@
 {
-  "name": "trial1",
+  "name": "College Spreadsheet",
+  "homepage": "http://collegespreadsheet.com/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
