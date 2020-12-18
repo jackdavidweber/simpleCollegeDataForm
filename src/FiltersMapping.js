@@ -10,7 +10,7 @@ import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
 import Chip from '@material-ui/core/Chip';
 import Button from '@material-ui/core/Button';
-// import Autocomplete from '@material-ui/lab/Autocomplete';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 
 
@@ -75,9 +75,9 @@ export default function MultipleSelect({input, buttonBehavior}) {
     //   setValues(value);
     // };
   
-    // useEffect(() => {
-    //   buttonBehavior(values);
-    // }, [values]);
+    useEffect(() => {
+      buttonBehavior(values);
+    }, [values]);
 
     const handleChange = name => (event, newValue) => {
       var updatedVal = newValue ? newValue : event.target.value
@@ -88,34 +88,26 @@ export default function MultipleSelect({input, buttonBehavior}) {
       //buttonBehavior(values);
     };
 
-    const fields = Object.keys(input);
-    const vals = Object.values(input);
-
-    // function handleClick(){
-    //   buttonBehavior(values);
-    // }
-
   return (
     <div>
-    {fields.map(field=>(
+    {Object.keys(input).map(field=>(
       <FormControl key={field} className={classes.formControl}>
-          Hello world
-      {/* <Autocomplete
-      className={classes.root}
-        multiple
-        id="tags-standard"
-        options={vals[fields.indexOf(field)]}
-        getOptionLabel={(option) => option}
-        onChange={handleChange(field)}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            variant="standard"
-            label= {field}
-            placeholder= {field}
-          />
-        )}
-      /> */}
+        <Autocomplete
+        className={classes.root}
+            multiple
+            id="tags-standard"
+            options={input[field]}
+            getOptionLabel={(option) => option}
+            onChange={handleChange(field)}
+            renderInput={(params) => (
+            <TextField
+                {...params}
+                variant="standard"
+                label= {field}
+                placeholder= {field}
+            />
+            )}
+        />
       </FormControl>
     ))}
     {/* <Button onClick={handleClick} variant="contained" color="primary" className={classes.button} align="center">

@@ -23,6 +23,46 @@ import { ScrollTo } from "react-scroll-to";
 import Button from '@material-ui/core/Button';
 import FiltersMapping from './FiltersMapping'
 
+const hardCodedFilters = {
+  "school.region_id": [
+      'U.S. Service Schools',
+      'New England (CT, ME, MA, NH, RI, VT)',
+      'Mid East (DE, DC, MD, NJ, NY, PA)',
+      'Great Lakes (IL, IN, MI, OH, WI)',
+      'Plains (IA, KS, MN, MO, NE, ND, SD)',
+      'Southeast (AL, AR, FL, GA, KY, LA, MS, NC, SC, TN, VA, WV)',
+      'Southwest (AZ, NM, OK, TX)',
+      'Rocky Mountains (CO, ID, MT, UT, WY)',
+      'Far West (AK, CA, HI, NV, OR, WA)',
+      'Outlying Areas (AS, FM, GU, MH, MP, PR, PW, VI)',
+  ],
+  "school.ownership": [
+    'Public',
+    'Private nonprofit',
+    'Private for-profit',
+  ],
+  "school.degrees_awarded.highest": [
+    'Non-degree-granting',
+    'Certificate degree',
+    'Associate degree',
+    'Bachelors degree',
+    'Graduate degree',
+  ],
+  "school.institutional_characteristics.level": [
+    '4-year',
+    '2-year',
+    'Less-than-2-year',
+  ],
+  "school.minority_serving.historically_black": [
+    'No',
+    'Yes',
+  ],
+  "singlesex.or.coed": [
+    "Single-Sex: Men",
+    "Single-Sex: Women",
+    "Co-Educational",
+  ]
+}
 
 const drawerWidth = 240;
 
@@ -147,20 +187,64 @@ const useStyles = makeStyles(theme => ({
   }));
   
 
+function cleanObject(o){
+  // for some reason, filters come through strangely. This function fixes this
+  var newObj = {}
+
+  for (let k in o){
+    let v = o[k]
+
+    if (Array.isArray(v) && v.length > 0){
+      newObj[k]=v
+    }
+  }
+  return newObj
+}
+
 export default function Dashboard() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
 
   const [filters, setFilters] = useState({})
-  const [graphData, setGraphData] = useState({})
+  const [table, setTable] = useState({})
 //   const forceUpdate = useForceUpdate()  FIXME: This might be necessary later
 
   const applyFilters = vals => {
-    console.log("applying filters needs to be filled in")
+    let postBody = {"filter_dict":{"is_in":cleanObject(vals),"is_btwn":{"latest.admissions.act_scores.midpoint.cumulative":{"min":0,"max":36,"inclusive":true},"latest.student.size":{"min":0,"max":50000,"inclusive":true}}},"recipient_email":"jack.weber@pomona.edu"}
+    postRequest(postBody)
     // var apiOutput = postRequest(removeUnnecessaryPropertiesFromPostBody(vals))
     //alert('filters have been applied \n' + JSON.stringify(removeUnnecessaryPropertiesFromPostBody(vals)));
     // forceUpdate();
   };
+  
+  // POST REQUEST
+  async function postRequest(postBody){
+    // used https://jasonwatmore.com/post/2020/02/01/react-fetch-http-post-request-examples "POST request using fetch with async/await"
+
+    const requestOptions = {
+      method: 'POST',
+      headers: { 
+        Accept: 'application/json',
+        'Content-Type': 'application/json' 
+      },
+      body: JSON.stringify(postBody)
+    };
+    const response = await fetch('https://flask-restful-collegedata.herokuapp.com/', requestOptions);
+    //  const response = await fetch('https://localhost:44355/api/Alumni', requestOptions);
+
+    const data = await response.json();
+    setTable(data);
+  }
+
+  useEffect(() => {
+    setFilters(hardCodedFilters)
+
+    // When the page loads, GET request and POST request are called to populate the page initially
+    // getRequest()
+
+    // POST request is called with no body which asks the backend for all data
+    // postRequest({})
+  }, [])
 
     return (
         <React.Fragment>
@@ -184,7 +268,6 @@ export default function Dashboard() {
             </Container>
             <Grid container spacing={2} justify="center">
               <Grid item>
-                Fill in here
                 {Object.keys(filters).length > 0 && <FiltersMapping input={filters} buttonBehavior= {applyFilters} />}
               </Grid>
 
