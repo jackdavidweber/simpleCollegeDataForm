@@ -22,6 +22,9 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import { ScrollTo } from "react-scroll-to";
 import Button from '@material-ui/core/Button';
 import FiltersMapping from './FiltersMapping'
+import ReactVirtualizedTable from './CollegeTable'
+import { Table } from 'react-virtualized';
+
 
 const hardCodedFilters = {
   "school.region_id": [
@@ -229,7 +232,7 @@ export default function Dashboard() {
       },
       body: JSON.stringify(postBody)
     };
-    const response = await fetch('https://flask-restful-collegedata.herokuapp.com/', requestOptions);
+    const response = await fetch('http://127.0.0.1:5000/', requestOptions);
     //  const response = await fetch('https://localhost:44355/api/Alumni', requestOptions);
 
     const data = await response.json();
@@ -275,16 +278,17 @@ export default function Dashboard() {
           </div>
           <div className={classes.root}>
             <Grid container spacing={3}>
-              <Grid item xs={12}> {/* Grid table item */}
-                {!table ? (<Paper className={classes.paper}>
-                  <h2> Loading from database ... </h2>
-                </Paper>) : (
-                <Paper className={classes.paper}>
-                  {JSON.stringify(table)}
-                </Paper>
-                )}
-              </Grid> {/* Grid table item */}
+              <Grid item xs={12}>
+                {
+                  Object.keys(table).length > 0 &&
+                  table['table'] && table['table']['column_names'] && table['table']['rows'] && 
+                  <ReactVirtualizedTable 
+                    column_names={table['table']['column_names']}
+                    rows = {table['table']['rows']}  
+                  />}
+              </Grid>
             </Grid> {/* container spacing={3} */}
+            
           </div> {/* classes.root */}
 
 
