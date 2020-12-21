@@ -273,6 +273,20 @@ export default function Dashboard() {
 
             </Grid>
           </div>
+          <div className={classes.root}>
+            <Grid container spacing={3}>
+              <Grid item xs={12}> {/* Grid table item */}
+                {!table ? (<Paper className={classes.paper}>
+                  <h2> Loading from database ... </h2>
+                </Paper>) : (
+                <Paper className={classes.paper}>
+                  {JSON.stringify(table)}
+                </Paper>
+                )}
+              </Grid> {/* Grid table item */}
+            </Grid> {/* container spacing={3} */}
+          </div> {/* classes.root */}
+
 
         </React.Fragment>
     )
