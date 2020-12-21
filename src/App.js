@@ -232,7 +232,7 @@ export default function Dashboard() {
       },
       body: JSON.stringify(postBody)
     };
-    const response = await fetch('http://127.0.0.1:5000/', requestOptions);
+    const response = await fetch('https://flask-restful-collegedata.herokuapp.com/', requestOptions);
     //  const response = await fetch('https://localhost:44355/api/Alumni', requestOptions);
 
     const data = await response.json();
