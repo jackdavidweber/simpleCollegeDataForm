@@ -17,50 +17,19 @@ import Slider from '@material-ui/core/Slider';
 
 
 const useStyles = makeStyles(theme => ({
-  button: {
-    marginTop: theme.spacing(3),
-    marginLeft: theme.spacing(3),
-    align: 'center'
-  },
-  formControl: {
-    // margin: theme.spacing(1),
-    minWidth: 120,
-    maxWidth: 300,
-  },
-  chips: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  chip: {
-    margin: 2,
-  },
-  noLabel: {
-    marginTop: theme.spacing(3),
-  },
   field_spacing: {
     flexGrow: 1,
   },
-  root: {
+  select: {
     width: 250,
     '& > * + *': {
       marginTop: theme.spacing(3),
     },
   },
   slider: {
-
+    width: 500,
   }
 }));
-
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
 
 // TODO: Rename
 function emptyObjOfArrays(inp){
@@ -100,13 +69,17 @@ export default function MultipleSelect({input, buttonBehavior}) {
 
   return (
     <div className={classes.field_spacing}>
-    <Grid container spacing={3} justify="center">
+    <Grid 
+    container 
+    spacing={3} 
+    justify="center"
+    alignItems="center">
       {Object.keys(input).map(field=>(
             typeof input[field][0] == 'string' ? // If first element is a string, use select fields
-              <Grid item xs={3}>
-                <FormControl key={field} className={classes.formControl}>
+              <Grid align="center" item xs={4}>
+                <FormControl key={field}>
                   <Autocomplete
-                      className={classes.root}
+                      className={classes.select}
                       multiple
                       id="tags-standard"
                       options={input[field]}
@@ -124,8 +97,8 @@ export default function MultipleSelect({input, buttonBehavior}) {
                 </FormControl>
               </Grid>
             : // If first element is not a string, use sliders
-              <Grid item xs={6}>
-                <FormControl key={field} className={classes.formControl}>   
+              <Grid align="center" item xs={6}>
+                <FormControl key={field} >   
                   <Slider
                     value={values[field]}
                     className={classes.slider}
