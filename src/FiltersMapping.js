@@ -12,6 +12,8 @@ import Chip from '@material-ui/core/Chip';
 import Button from '@material-ui/core/Button';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
+import Grid from '@material-ui/core/Grid';
+import Slider from '@material-ui/core/Slider';
 
 
 const useStyles = makeStyles(theme => ({
@@ -89,30 +91,36 @@ export default function MultipleSelect({input, buttonBehavior}) {
     };
 
   return (
-    <div>
+    <Grid container spacing={2} justify="center">
     {Object.keys(input).map(field=>(
-      <FormControl key={field} className={classes.formControl}>
-        <Autocomplete
-        className={classes.root}
-            multiple
-            id="tags-standard"
-            options={input[field]}
-            getOptionLabel={(option) => option}
-            onChange={handleChange(field)}
-            renderInput={(params) => (
-            <TextField
-                {...params}
-                variant="standard"
-                label= {field}
-                placeholder= {field}
-            />
-            )}
-        />
-      </FormControl>
+      <Grid item>
+        <FormControl key={field} className={classes.formControl}>
+          {typeof input[field][0] == 'string' ? // If first element is a string, use select fields
+            <Autocomplete
+                className={classes.root}
+                multiple
+                id="tags-standard"
+                options={input[field]}
+                getOptionLabel={(option) => option}
+                onChange={handleChange(field)}
+                renderInput={(params) => (
+                <TextField
+                    {...params}
+                    variant="standard"
+                    label= {field}
+                    placeholder= {field}
+                />
+                )}
+            /> 
+          : // If first element is not a string, use sliders
+            <h2> Hello WOrld </h2>
+          }
+        </FormControl>
+      </Grid>
     ))}
     {/* <Button onClick={handleClick} variant="contained" color="primary" className={classes.button} align="center">
            Apply Filters
     </Button> */}
-    </div>
+    </Grid>
   );
 }

@@ -64,7 +64,9 @@ const hardCodedFilters = {
     "Single-Sex: Men",
     "Single-Sex: Women",
     "Co-Educational",
-  ]
+  ],
+  "latest.admissions.act_scores.midpoint.cumulative": [0,36],
+  "latest.student.size": [0,50000]
 }
 
 const drawerWidth = 240;
@@ -213,6 +215,7 @@ export default function Dashboard() {
 //   const forceUpdate = useForceUpdate()  FIXME: This might be necessary later
 
   const applyFilters = vals => {
+    console.log(vals)
     let postBody = {"filter_dict":{"is_in":cleanObject(vals),"is_btwn":{"latest.admissions.act_scores.midpoint.cumulative":{"min":0,"max":36,"inclusive":true},"latest.student.size":{"min":0,"max":50000,"inclusive":true}}},"recipient_email":"jack.weber@pomona.edu"}
     postRequest(postBody)
     // var apiOutput = postRequest(removeUnnecessaryPropertiesFromPostBody(vals))
@@ -233,7 +236,6 @@ export default function Dashboard() {
       body: JSON.stringify(postBody)
     };
     const response = await fetch('https://flask-restful-collegedata.herokuapp.com/', requestOptions);
-    //  const response = await fetch('https://localhost:44355/api/Alumni', requestOptions);
 
     const data = await response.json();
     setTable(data);
@@ -269,12 +271,7 @@ export default function Dashboard() {
               This tool is designed to be the first step in your college process! Simply insert your preferences below, and we will send you a personalized spreadsheet with colleges and all of the information about each one!
               </Typography>
             </Container>
-            <Grid container spacing={2} justify="center">
-              <Grid item>
-                {Object.keys(filters).length > 0 && <FiltersMapping input={filters} buttonBehavior= {applyFilters} />}
-              </Grid>
-
-            </Grid>
+            {Object.keys(filters).length > 0 && <FiltersMapping input={filters} buttonBehavior= {applyFilters} />}
           </div>
           <div className={classes.root}>
             <Grid container spacing={3}>

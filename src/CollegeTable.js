@@ -85,7 +85,6 @@ class MuiVirtualizedTable extends React.PureComponent {
 
   render() {
     const { classes, columns, rowHeight, headerHeight, ...tableProps } = this.props;
-    console.log(columns)
     return (
       <AutoSizer>
         {({ height, width }) => (
@@ -174,7 +173,6 @@ function columns_reformatter(list_of_strings, width){
 
 export default function ReactVirtualizedTable({column_names, rows}) {
   const columns = columns_reformatter(column_names, 200)
-  console.log(columns)
   return (
     <Paper style={{ height: 400, width: '100%' }}>
       <VirtualizedTable
