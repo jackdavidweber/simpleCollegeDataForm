@@ -191,6 +191,26 @@ const useStyles = makeStyles(theme => ({
     }
   }));
   
+function buildPostBody(o){
+  const is_in = {}
+  const is_btwn = {}
+
+  for (let k in o){
+    let v = o[k]
+
+    if (Array.isArray(v) && v.length > 0){
+      // Check if first and second values are numbers-- this means in btwn
+      if (v.length>1 && typeof v[0] == 'number' && typeof v[1] == 'number' ){
+        is_btwn[k] = {"min":v[0],"max":v[1],"inclusive":true}
+      } else {
+        is_in[k] = v
+      }
+    }
+    
+  }
+
+  return {"filter_dict": {"is_in": is_in, "is_btwn": is_btwn}, "recipient_email":"jack.weber@pomona.edu"}
+}
 
 function cleanObject(o){
   // for some reason, filters come through strangely. This function fixes this
@@ -215,8 +235,7 @@ export default function Dashboard() {
 //   const forceUpdate = useForceUpdate()  FIXME: This might be necessary later
 
   const applyFilters = vals => {
-    console.log(vals)
-    let postBody = {"filter_dict":{"is_in":cleanObject(vals),"is_btwn":{"latest.admissions.act_scores.midpoint.cumulative":{"min":0,"max":36,"inclusive":true},"latest.student.size":{"min":0,"max":50000,"inclusive":true}}},"recipient_email":"jack.weber@pomona.edu"}
+    let postBody = buildPostBody(vals)
     postRequest(postBody)
     // var apiOutput = postRequest(removeUnnecessaryPropertiesFromPostBody(vals))
     //alert('filters have been applied \n' + JSON.stringify(removeUnnecessaryPropertiesFromPostBody(vals)));
