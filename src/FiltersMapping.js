@@ -43,6 +43,9 @@ const useStyles = makeStyles(theme => ({
       marginTop: theme.spacing(3),
     },
   },
+  slider: {
+
+  }
 }));
 
 const ITEM_HEIGHT = 48;
@@ -56,16 +59,18 @@ const MenuProps = {
   },
 };
 
+// TODO: Rename
 function emptyObjOfArrays(inp){
-  // copies input object to fields object
-  const fields = Object.keys(inp);
+  const fields = {}
 
-  //sets all fields equal to an empty array
-  fields.map(function(key, index){
-    fields[key] = [];
-  });
-
-  return fields;
+  for (const [key, value] of Object.entries(inp)){
+    if (typeof value[0] == 'string') {
+      fields[key] = []
+    } else {
+      fields[key] = value
+    }
+  }
+  return fields
 }
 
 export default function MultipleSelect({input, buttonBehavior}) {
@@ -113,7 +118,27 @@ export default function MultipleSelect({input, buttonBehavior}) {
                 )}
             /> 
           : // If first element is not a string, use sliders
-            <h2> Hello WOrld </h2>
+            <Slider
+              value={values[field]}
+              className={classes.slider}
+              onChange={handleChange(field)}
+              valueLabelDisplay="auto"
+              aria-labelledby="range-slider"
+              step={1}
+              min={input[field][0]}
+              max={input[field][1]}
+              marks = {[
+                {
+                  value: input[field][0],
+                  label: input[field][0].toString(),
+                },
+                {
+                  value: input[field][1],
+                  label: input[field][1].toString(),
+                },
+              ]}
+            />
+
           }
         </FormControl>
       </Grid>
