@@ -37,6 +37,9 @@ const useStyles = makeStyles(theme => ({
   noLabel: {
     marginTop: theme.spacing(3),
   },
+  field_spacing: {
+    flexGrow: 1,
+  },
   root: {
     width: 250,
     '& > * + *': {
@@ -96,56 +99,58 @@ export default function MultipleSelect({input, buttonBehavior}) {
     };
 
   return (
-    <Grid container spacing={2} justify="center">
-    {Object.keys(input).map(field=>(
-      <Grid item>
-        <FormControl key={field} className={classes.formControl}>
-          {typeof input[field][0] == 'string' ? // If first element is a string, use select fields
-            <Autocomplete
-                className={classes.root}
-                multiple
-                id="tags-standard"
-                options={input[field]}
-                getOptionLabel={(option) => option}
-                onChange={handleChange(field)}
-                renderInput={(params) => (
-                <TextField
-                    {...params}
-                    variant="standard"
-                    label= {field}
-                    placeholder= {field}
-                />
-                )}
-            /> 
-          : // If first element is not a string, use sliders
-            <Slider
-              value={values[field]}
-              className={classes.slider}
-              onChange={handleChange(field)}
-              valueLabelDisplay="auto"
-              aria-labelledby="range-slider"
-              step={1}
-              min={input[field][0]}
-              max={input[field][1]}
-              marks = {[
-                {
-                  value: input[field][0],
-                  label: input[field][0].toString(),
-                },
-                {
-                  value: input[field][1],
-                  label: input[field][1].toString(),
-                },
-              ]}
-            />
-
-          }
-        </FormControl>
-      </Grid>
-    ))}
-    {/* <Button onClick={handleClick} variant="contained" color="primary" className={classes.button} align="center">
-           Apply Filters
-    </Button> */}
+    <div className={classes.field_spacing}>
+    <Grid container spacing={3} justify="center">
+      {Object.keys(input).map(field=>(
+            typeof input[field][0] == 'string' ? // If first element is a string, use select fields
+              <Grid item xs={3}>
+                <FormControl key={field} className={classes.formControl}>
+                  <Autocomplete
+                      className={classes.root}
+                      multiple
+                      id="tags-standard"
+                      options={input[field]}
+                      getOptionLabel={(option) => option}
+                      onChange={handleChange(field)}
+                      renderInput={(params) => (
+                      <TextField
+                          {...params}
+                          variant="standard"
+                          label= {field}
+                          placeholder= {field}
+                      />
+                      )}
+                  />
+                </FormControl>
+              </Grid>
+            : // If first element is not a string, use sliders
+              <Grid item xs={6}>
+                <FormControl key={field} className={classes.formControl}>   
+                  <Slider
+                    value={values[field]}
+                    className={classes.slider}
+                    onChange={handleChange(field)}
+                    valueLabelDisplay="auto"
+                    aria-labelledby="range-slider"
+                    step={1}
+                    min={input[field][0]}
+                    max={input[field][1]}
+                    marks = {[
+                      {
+                        value: input[field][0],
+                        label: input[field][0].toString(),
+                      },
+                      {
+                        value: input[field][1],
+                        label: input[field][1].toString(),
+                      },
+                    ]}
+                  />
+                </FormControl>
+              </Grid>
+            
+      ))}
     </Grid>
+    </div>
   );
 }
