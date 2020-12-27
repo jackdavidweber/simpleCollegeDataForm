@@ -14,6 +14,8 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Slider from '@material-ui/core/Slider';
+import Typography from '@material-ui/core/Typography';
+
 
 
 const useStyles = makeStyles(theme => ({
@@ -98,7 +100,10 @@ export default function MultipleSelect({input, buttonBehavior}) {
               </Grid>
             : // If first element is not a string, use sliders
               <Grid align="center" item xs={6}>
-                <FormControl key={field} >   
+                <FormControl key={field} >  
+                  <Typography align="left" variant="body1" gutterBottom>
+                    {field}
+                  </Typography> 
                   <Slider
                     value={values[field]}
                     className={classes.slider}
