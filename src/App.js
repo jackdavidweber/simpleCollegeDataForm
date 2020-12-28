@@ -299,18 +299,16 @@ export default function Dashboard() {
           spacing={3} 
           justify="center"
           alignItems="center">
-            <Grid align="center" item xs={4}>
-              <Paper style={{ height: 400, width: '100%' }}>
-                {/* <NewCollegeTable/> */}
-                {
-                  Object.keys(table).length > 0 &&
-                  table['table'] && table['table']['column_names'] && table['table']['rows'] && 
-                  <ReactVirtualizedTable
-                    column_names={table['table']['column_names']}
-                    rows = {table['table']['rows']}  
-                  />}
-
-              </Paper>
+            <Grid align="center" item xs={12}>
+              {
+                Object.keys(table).length > 0 &&
+                table['table'] && table['table']['column_names'] && table['table']['rows'] && 
+                <NewCollegeTable
+                  // backcolor={theme.palette.background.paper}
+                  column_names={table['table']['column_names']}
+                  rows = {table['table']['rows']}  
+                />
+              }
             </Grid>
           </Grid>
             
