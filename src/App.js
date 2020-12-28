@@ -22,10 +22,8 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import { ScrollTo } from "react-scroll-to";
 import Button from '@material-ui/core/Button';
 import FiltersMapping from './FiltersMapping'
-import ReactVirtualizedTable from './CollegeTable'
 import { Table } from 'react-virtualized';
-import DataTable from './DataTable';
-import NewCollegeTable from './NewCollegeTable'
+import CollegeTable from './CollegeTable'
 
 const hardCodedFilters = {
   "school.region_id": [
@@ -259,6 +257,7 @@ export default function Dashboard() {
     const response = await fetch('https://flask-restful-collegedata.herokuapp.com/', requestOptions);
 
     const data = await response.json();
+    console.log(data)
     setTable(data);
   }
 
@@ -302,8 +301,9 @@ export default function Dashboard() {
             <Grid align="center" item xs={12}>
               {
                 Object.keys(table).length > 0 &&
-                table['table'] && table['table']['column_names'] && table['table']['rows'] && 
-                <NewCollegeTable
+                table['table'] && table['table']['column_names'] && table['table']['rows'] 
+                &&
+                <CollegeTable
                   // backcolor={theme.palette.background.paper}
                   column_names={table['table']['column_names']}
                   rows = {table['table']['rows']}  
