@@ -88,12 +88,10 @@ class MuiVirtualizedTable extends React.PureComponent {
     const { classes, columns, rowHeight, headerHeight, ...tableProps } = this.props;
     console.log(tableProps)
     return (
-      <AutoSizer>
-        {({ height, width }) => (
           <Table
             padding='none'
             offset="none"
-            height={height}
+            height={600}
             width={400}
             rowHeight={rowHeight}
             gridStyle={{
@@ -122,10 +120,8 @@ class MuiVirtualizedTable extends React.PureComponent {
               );
             })}
           </Table>
-        )}
-      </AutoSizer>
-    );
-  }
+    )
+    }
 }
 
 MuiVirtualizedTable.propTypes = {

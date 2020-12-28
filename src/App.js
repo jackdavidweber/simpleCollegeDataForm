@@ -305,7 +305,7 @@ export default function Dashboard() {
                 {
                   Object.keys(table).length > 0 &&
                   table['table'] && table['table']['column_names'] && table['table']['rows'] && 
-                  <NewCollegeTable
+                  <ReactVirtualizedTable
                     column_names={table['table']['column_names']}
                     rows = {table['table']['rows']}  
                   />}
