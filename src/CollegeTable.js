@@ -17,7 +17,8 @@ const styles = (theme) => ({
     // https://github.com/bvaughn/react-virtualized/issues/454
     '& .ReactVirtualized__Table__headerRow': {
       flip: false,
-      paddingRight: theme.direction === 'rtl' ? '0 !important' : undefined,
+      paddingLeft: 0
+      // paddingRight: theme.direction === 'rtl' ? '0 !important' : undefined,
     },
   },
   tableRow: {
@@ -85,12 +86,15 @@ class MuiVirtualizedTable extends React.PureComponent {
 
   render() {
     const { classes, columns, rowHeight, headerHeight, ...tableProps } = this.props;
+    console.log(tableProps)
     return (
       <AutoSizer>
         {({ height, width }) => (
           <Table
+            padding='none'
+            offset="none"
             height={height}
-            width={width}
+            width={400}
             rowHeight={rowHeight}
             gridStyle={{
               direction: 'inherit',
@@ -173,13 +177,12 @@ function columns_reformatter(list_of_strings, width){
 
 export default function ReactVirtualizedTable({column_names, rows}) {
   const columns = columns_reformatter(column_names, 200)
+  console.log(columns)
   return (
-    <Paper style={{ height: 400, width: '100%' }}>
-      <VirtualizedTable
-        rowCount={rows.length}
-        rowGetter={({ index }) => rows[index]}
-        columns={columns}
-      />
-    </Paper>
+    <VirtualizedTable
+      rowCount={rows.length}
+      rowGetter={({ index }) => rows[index]}
+      columns={columns}
+    />
   );
 }
