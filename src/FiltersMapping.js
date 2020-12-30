@@ -34,7 +34,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 // TODO: Rename
-function emptyObjOfArrays(inp){
+function generateValues(inp){
   const fields = {}
 
   for (const [key, value] of Object.entries(inp)){
@@ -50,17 +50,25 @@ function emptyObjOfArrays(inp){
 export default function MultipleSelect({input, buttonBehavior}) {
     const classes = useStyles();
     const theme = useTheme();
-    const [values, setValues] = useState(emptyObjOfArrays(input));
-    
-    // function updateAge(value) {
-    //   setValues(value);
-    // };
+    const [values, setValues] = useState(generateValues(input));
+    const [visual, setVisual] = useState(generateValues(input));
   
     useEffect(() => {
       buttonBehavior(values);
     }, [values]);
 
+
+    const handleVisualChange = name => (event, newValue) => {
+      var updatedVal = newValue ? newValue : event.target.value
+      if(Array.isArray(event.target.value)){
+        updatedVal = event.target.value
+      }
+      setVisual({...visual, [name]: updatedVal}); // this if statement is clearly not handling personChange very well
+      //buttonBehavior(values);
+    };
+
     const handleChange = name => (event, newValue) => {
+      console.log("handleChange")
       var updatedVal = newValue ? newValue : event.target.value
       if(Array.isArray(event.target.value)){
         updatedVal = event.target.value
@@ -105,9 +113,10 @@ export default function MultipleSelect({input, buttonBehavior}) {
                     {field}
                   </Typography> 
                   <Slider
-                    value={values[field]}
+                    value={visual[field]}
                     className={classes.slider}
-                    onChange={handleChange(field)}
+                    onChange={handleVisualChange(field)}
+                    onChangeCommitted={handleChange(field)}
                     valueLabelDisplay="auto"
                     aria-labelledby="range-slider"
                     step={1}
