@@ -190,6 +190,7 @@ export default function Dashboard() {
 
   const [filters, setFilters] = useState({})
   const [table, setTable] = useState({})
+  const [headers, setHeaders] = useState({})
 //   const forceUpdate = useForceUpdate()  FIXME: This might be necessary later
 
   const applyFilters = vals => {
@@ -207,6 +208,7 @@ export default function Dashboard() {
       const data = await res.json()
 
       setFilters(data["where_cols"])
+      setHeaders(data["select_cols"])
 
   }
 
@@ -268,11 +270,11 @@ export default function Dashboard() {
             <Grid align="center" item xs={12}>
               {
                 Object.keys(table).length > 0 &&
-                table['table'] && table['table']['column_names'] && table['table']['rows'] 
+                table['table'] && table['table']['rows'] && headers
                 &&
                 <CollegeTable
                   // backcolor={theme.palette.background.paper}
-                  column_names={table['table']['column_names']}
+                  column_names={headers}
                   rows = {table['table']['rows']}  
                 />
               }
