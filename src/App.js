@@ -25,48 +25,6 @@ import FiltersMapping from './FiltersMapping'
 import { Table } from 'react-virtualized';
 import CollegeTable from './CollegeTable'
 
-const hardCodedFilters = {
-  "school.region_id": [
-      'U.S. Service Schools',
-      'New England (CT, ME, MA, NH, RI, VT)',
-      'Mid East (DE, DC, MD, NJ, NY, PA)',
-      'Great Lakes (IL, IN, MI, OH, WI)',
-      'Plains (IA, KS, MN, MO, NE, ND, SD)',
-      'Southeast (AL, AR, FL, GA, KY, LA, MS, NC, SC, TN, VA, WV)',
-      'Southwest (AZ, NM, OK, TX)',
-      'Rocky Mountains (CO, ID, MT, UT, WY)',
-      'Far West (AK, CA, HI, NV, OR, WA)',
-      'Outlying Areas (AS, FM, GU, MH, MP, PR, PW, VI)',
-  ],
-  "school.ownership": [
-    'Public',
-    'Private nonprofit',
-    'Private for-profit',
-  ],
-  "school.degrees_awarded.highest": [
-    'Non-degree-granting',
-    'Certificate degree',
-    'Associate degree',
-    'Bachelors degree',
-    'Graduate degree',
-  ],
-  "school.institutional_characteristics.level": [
-    '4-year',
-    '2-year',
-    'Less-than-2-year',
-  ],
-  "school.minority_serving.historically_black": [
-    'No',
-    'Yes',
-  ],
-  "singlesex.or.coed": [
-    "Single-Sex: Men",
-    "Single-Sex: Women",
-    "Co-Educational",
-  ],
-  "latest.admissions.act_scores.midpoint.cumulative": [0,36],
-  "latest.student.size": [0,50000]
-}
 
 const drawerWidth = 240;
 
@@ -232,6 +190,7 @@ export default function Dashboard() {
 
   const [filters, setFilters] = useState({})
   const [table, setTable] = useState({})
+  const [headers, setHeaders] = useState({})
 //   const forceUpdate = useForceUpdate()  FIXME: This might be necessary later
 
   const applyFilters = vals => {
@@ -242,6 +201,17 @@ export default function Dashboard() {
     // forceUpdate();
   };
   
+  // GET REQUEST
+  async function getRequest() {
+    const res = await fetch(`https://flask-restful-collegedata.herokuapp.com/`)
+  
+      const data = await res.json()
+
+      setFilters(data["where_cols"])
+      setHeaders(data["select_cols"])
+
+  }
+
   // POST REQUEST
   async function postRequest(postBody){
     // used https://jasonwatmore.com/post/2020/02/01/react-fetch-http-post-request-examples "POST request using fetch with async/await"
@@ -257,15 +227,13 @@ export default function Dashboard() {
     const response = await fetch('https://flask-restful-collegedata.herokuapp.com/', requestOptions);
 
     const data = await response.json();
-    console.log(data)
     setTable(data);
   }
 
   useEffect(() => {
-    setFilters(hardCodedFilters)
 
     // When the page loads, GET request and POST request are called to populate the page initially
-    // getRequest()
+    getRequest()
 
     // POST request is called with no body which asks the backend for all data
     // postRequest({})
@@ -301,11 +269,11 @@ export default function Dashboard() {
             <Grid align="center" item xs={12}>
               {
                 Object.keys(table).length > 0 &&
-                table['table'] && table['table']['column_names'] && table['table']['rows'] 
+                table['table'] && table['table']['rows'] && headers
                 &&
                 <CollegeTable
                   // backcolor={theme.palette.background.paper}
-                  column_names={table['table']['column_names']}
+                  column_names={headers}
                   rows = {table['table']['rows']}  
                 />
               }
