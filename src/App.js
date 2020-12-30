@@ -227,7 +227,6 @@ export default function Dashboard() {
     const response = await fetch('https://flask-restful-collegedata.herokuapp.com/', requestOptions);
 
     const data = await response.json();
-    console.log(data)
     setTable(data);
   }
 
